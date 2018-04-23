@@ -19,7 +19,7 @@ RSpec.configure do |config|
   Capybara.save_path = './tmp/capybara'
   Capybara.javascript_driver = config_data.browser.to_sym
   Capybara.default_driver = Capybara.javascript_driver
-  Capybara.default_max_wait_time = 5
+  Capybara.default_max_wait_time = 10
 
   Capybara::Screenshot.register_driver :chrome do |driver, path|
     driver.browser.save_screenshot(path)

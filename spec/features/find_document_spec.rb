@@ -8,32 +8,26 @@ feature "Find document", js: true do
   end
 
   scenario '#find document' do
-    # Заходим на сайт
     visit_cons_page
-    # Проверяем что это нужная нам страница
     expect_correct_cons_page
-    # Ищем документ
     name = 'нк ч2'
+    # Ищем документ
     find_document(name)
+    puts '1111111'
+    sleep 5
     popup_window = window_opened_by do
       open_first_document
     end
+    puts '222222'
     within_window popup_window do
-      puts iframe = page.all('iframe').first
-      within_frame(iframe) do
-        puts page.all('span').count
-      end
+      sleep 5
+      puts '333333333333'
+        puts iframe = page.find(:xpath, "//td[@class='textContainer']//iframe[@id='listContainerFrame']")
+        within_frame('listContainerFrame') do
+          expect(page).to have_content(/налоговый КОДЕКС/i)
+          expect(page).to have_content(/чАсТь ВтОраЯ/i)
+        end
     end
-    # puts iframe.inspect
-    # page.driver.browser.switch_to.frame(iframe)
-    # page.find(:xpath, "//span[@class='blk']")
-    #
-    # within_frame(iframe) do
-    #   puts page.inspect
-    #   sleep 10
-    # end
-    # page.find(:xpath, "//iframe[contains(@src, 'код']")
-    # sleep 100
   end
 
   private
