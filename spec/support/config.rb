@@ -13,4 +13,8 @@ class Config
   def browser
     @config['browser']
   end
+
+  def delay_open_document
+    @config['delay_open_document']
+  end
 end

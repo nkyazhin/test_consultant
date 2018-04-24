@@ -1,32 +1,26 @@
 require 'spec_helper'
 
 feature "Find document", js: true do
-
-
-  before do
-
-  end
+  let(:document_name) { 'нк ч2' }
+  let(:delay_open_document) { Config.new.delay_open_document }
 
   scenario '#find document' do
     visit_cons_page
     expect_correct_cons_page
-    name = 'нк ч2'
-    # Ищем документ
-    find_document(name)
-    puts '1111111'
-    sleep 5
+    find_document(document_name)
+    # Запоминаем открывшуюся вкладку
     popup_window = window_opened_by do
       open_first_document
     end
-    puts '222222'
+    sleep delay_open_document.to_i
+    # Все действия в данном блоке введуся во вкладке popup_window
     within_window popup_window do
-      sleep 5
-      puts '333333333333'
-        puts iframe = page.find(:xpath, "//td[@class='textContainer']//iframe[@id='listContainerFrame']")
-        within_frame('listContainerFrame') do
-          expect(page).to have_content(/налоговый КОДЕКС/i)
-          expect(page).to have_content(/чАсТь ВтОраЯ/i)
-        end
+      # Находим iframe
+      # Все действия в данном блоке введуся 'внутри' найденного iframa
+      within_frame('listContainerFrame') do
+        expect(page).to have_content(/налоговый КОДЕКС/i)
+        expect(page).to have_content(/чАсТь ВтОраЯ/i)
+      end
     end
   end
 
@@ -47,6 +41,6 @@ feature "Find document", js: true do
   end
 
   def open_first_document
-    page.find(:xpath,"//div[@class='listPaneContent']/div[@index='0']").click
+    page.find(:xpath, "//div[@class='listPaneContent']/div[@index='0']").click
   end
 end

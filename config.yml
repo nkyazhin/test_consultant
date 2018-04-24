@@ -1,2 +1,3 @@
 url: 'http://www.consultant.ru'
-browser: 'chrome' #selenium
+browser: 'firefox' #chrome
+delay_open_document: '3' # В секундах

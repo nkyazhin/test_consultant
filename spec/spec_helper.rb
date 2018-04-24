@@ -15,11 +15,15 @@ RSpec.configure do |config|
                                       "prefs" => { "download.prompt_for_download" => true } } })
   end
 
+  Capybara.register_driver :firefox do |app|
+    Capybara::Selenium::Driver.new(app, :browser => :firefox)
+  end
+
 
   Capybara.save_path = './tmp/capybara'
   Capybara.javascript_driver = config_data.browser.to_sym
   Capybara.default_driver = Capybara.javascript_driver
-  Capybara.default_max_wait_time = 10
+  Capybara.default_max_wait_time = 5
 
   Capybara::Screenshot.register_driver :chrome do |driver, path|
     driver.browser.save_screenshot(path)
