@@ -14,14 +14,7 @@ feature "Find document", js: true do
     end
     sleep delay_open_document.to_i
     # Все действия в данном блоке введуся во вкладке popup_window
-    within_window popup_window do
-      # Находим iframe
-      # Все действия в данном блоке введуся 'внутри' найденного iframa
-      within_frame('listContainerFrame') do
-        expect(page).to have_content(/налоговый КОДЕКС/i)
-        expect(page).to have_content(/чАсТь ВтОраЯ/i)
-      end
-    end
+    expect_correct_find_document(popup_window)
   end
 
   private
@@ -42,5 +35,17 @@ feature "Find document", js: true do
 
   def open_first_document
     page.find(:xpath, "//div[@class='listPaneContent']/div[@index='0']").click
+  end
+
+  def expect_correct_find_document(popup_window)
+    within_window popup_window do
+      expect(page).to have_title(/(налоговый КОДЕКС).*(чАсТь ВтОраЯ)/i)
+      # Находим iframe
+      # Все действия в данном блоке введуся 'внутри' найденного iframa
+      within_frame('listContainerFrame') do
+        expect(page).to have_content(/налоговый КОДЕКС/i)
+        expect(page).to have_content(/чАсТь ВтОраЯ/i)
+      end
+    end
   end
 end
